@@ -1,0 +1,43 @@
+{
+  "name": "traveo-client",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --webpack",
+    "build": "next build",
+    "start": "next dev",
+    "lint": "next lint",
+    "test": "jest --runInBand --forceExit",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --runInBand --forceExit --coverage"
+  },
+  "dependencies": {
+    "axios": "^1.7.7",
+    "date-fns": "^4.1.0",
+    "framer-motion": "^11.11.1",
+    "leaflet": "^1.9.4",
+    "next": "^16.1.6",
+    "next-pwa": "^5.6.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-hot-toast": "^2.4.1",
+    "react-icons": "^5.3.0",
+    "react-leaflet": "^5.0.0",
+    "socket.io-client": "^4.8.0"
+  },
+  "devDependencies": {
+    "@testing-library/dom": "^10.4.1",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@testing-library/user-event": "^14.6.1",
+    "autoprefixer": "^10.4.20",
+    "babel-jest": "^30.3.0",
+    "eslint": "^8.57.0",
+    "eslint-config-next": "^16.1.6",
+    "jest": "^30.3.0",
+    "jest-environment-jsdom": "^30.3.0",
+    "postcss": "^8.4.47",
+    "sharp": "^0.34.5",
+    "tailwindcss": "^3.4.13"
+  }
+}

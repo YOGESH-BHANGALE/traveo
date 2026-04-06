@@ -1,0 +1,13 @@
+{
+  "name": "traveo-plus",
+  "version": "1.0.0",
+  "description": "Traveo+ — Unified Intelligent Ride-Sharing Platform",
+  "private": true,
+  "scripts": {
+    "install:all": "npm install --legacy-peer-deps --prefix server && npm install --legacy-peer-deps --prefix client",
+    "dev:server": "npm run dev --prefix server",
+    "dev:client": "npm run dev --prefix client",
+    "start:server": "npm start --prefix server",
+    "start:client": "npm start --prefix client"
+  }
+}
