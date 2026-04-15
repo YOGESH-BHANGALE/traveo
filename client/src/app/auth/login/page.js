@@ -86,7 +86,7 @@ export default function LoginPage() {
         <div className="text-center mb-8">
           <Link href="/" className="inline-flex items-center gap-2">
             <div className="w-10 h-10 rounded-xl overflow-hidden">
-              <img src="/traveo-icon.svg" alt="Traveo" className="w-full h-full object-cover" />
+              <img src="/traveo-icon.svg" alt="Logo" className="w-full h-full object-cover" />
             </div>
             <span className="text-2xl font-black text-white">Traveo</span>
           </Link>
