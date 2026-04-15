@@ -134,9 +134,11 @@ export default function ProfilePage() {
                           value={formData[key] || ''} onChange={(e) => setFormData({ ...formData, [key]: e.target.value })} />
                       </div>
                     ) : (
-                      <div className="flex items-center gap-2 text-sm text-brand-200">
-                        <Icon className="text-brand-500" size={16} />
-                        <span>{user?.[key] || 'Not provided'}</span>
+                      <div className="flex items-center gap-3 p-3 bg-brand-800 rounded-xl border border-brand-700">
+                        <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-brand-700">
+                          <Icon className="text-accent-400" size={18} />
+                        </div>
+                        <span className="text-brand-100 font-medium">{user?.[key] || 'Not provided'}</span>
                       </div>
                     )}
                   </div>

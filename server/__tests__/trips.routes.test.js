@@ -110,7 +110,7 @@ describe('POST /api/trips', () => {
   const validTripBody = {
     source: { address: 'Station Road', lat: 30.3165, lng: 78.0322 },
     destination: { address: 'Clock Tower', lat: 30.3255, lng: 78.0412 },
-    date: '2026-04-01',
+    date: '2026-05-01',
     time: '09:00',
     seats: 2,
     vehicleType: 'auto',
@@ -132,17 +132,24 @@ describe('POST /api/trips', () => {
 
   test('creates trip successfully with valid data', async () => {
     const createdTrip = { ...validTripBody, _id: 'trip123', user: mockUser, status: 'active' };
-    Trip.create.mockResolvedValue({
+    const mockTripWithPopulate = {
       ...createdTrip,
       populate: jest.fn().mockResolvedValue(createdTrip),
-    });
+    };
+    Trip.create.mockResolvedValue(mockTripWithPopulate);
 
     const res = await request(app)
       .post('/api/trips')
       .set('Authorization', authHeader)
       .send(validTripBody);
+    
+    if (res.status !== 201) {
+      console.log('Response body:', res.body);
+    }
+    
     expect(res.status).toBe(201);
     expect(res.body.success).toBe(true);
+    expect(Trip.create).toHaveBeenCalled();
   });
 });
 
@@ -179,17 +186,13 @@ describe('POST /api/trips/:tripId/connect', () => {
     expect(res.body.message).toMatch(/own trip/i);
   });
 
-  test('returns 400 when user has no active trip', async () => {
+  test('returns 400 when trip is not available for booking', async () => {
     Trip.findById.mockReturnValue({
       populate: jest.fn().mockResolvedValue({
         _id: 'trip456',
-        user: { _id: 'otheruser', toString: () => 'otheruser' },
-        status: 'active',
+        user: { _id: 'otheruser', toString: () => 'otheruser', role: 'user' },
+        status: 'completed', // Not 'open' or 'partially_filled'
       }),
-    });
-    // Trip.findOne().sort() chain returns null (no active trip for current user)
-    Trip.findOne.mockReturnValue({
-      sort: jest.fn().mockResolvedValue(null),
     });
 
     const Match = require('../models/Match');
@@ -200,6 +203,6 @@ describe('POST /api/trips/:tripId/connect', () => {
       .set('Authorization', authHeader)
       .send({});
     expect(res.status).toBe(400);
-    expect(res.body.message).toMatch(/active trip/i);
+    expect(res.body.message).toMatch(/no longer available for booking/i);
   });
 });

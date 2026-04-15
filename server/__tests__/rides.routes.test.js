@@ -28,6 +28,7 @@ jest.mock('../models/Trip', () => {
   const T = jest.fn();
   T.findById = jest.fn();
   T.findByIdAndUpdate = jest.fn();
+  T.updateMany = jest.fn();
   return T;
 });
 
@@ -173,6 +174,10 @@ describe('PUT /api/rides/:rideId/start', () => {
       _id: 'ride1',
       status: 'confirmed',
       startedAt: null,
+      users: [
+        { user: 'user123', role: 'creator' },
+        { user: 'user456', role: 'participant' }
+      ],
       save: jest.fn().mockResolvedValue(true),
       populate: jest.fn().mockResolvedValue({ _id: 'ride1', status: 'in_progress' }),
     };
@@ -189,7 +194,11 @@ describe('PUT /api/rides/:rideId/start', () => {
 
 describe('PUT /api/rides/:rideId/complete', () => {
   test('returns 400 when ride already completed', async () => {
-    Ride.findById.mockResolvedValue({ _id: 'ride1', status: 'completed' });
+    Ride.findById.mockResolvedValue({ 
+      _id: 'ride1', 
+      status: 'completed',
+      users: [{ user: 'user123', role: 'creator' }]
+    });
 
     const res = await request(app)
       .put('/api/rides/ride1/complete')
@@ -202,8 +211,11 @@ describe('PUT /api/rides/:rideId/complete', () => {
     const mockRide = {
       _id: 'ride1',
       status: 'in_progress',
-      users: [{ user: 'user123' }],
-      trips: ['trip1'],
+      users: [
+        { user: 'user123', role: 'creator' },
+        { user: 'user456', role: 'participant' }
+      ],
+      trips: ['trip1', 'trip2'],
       completedAt: null,
       save: jest.fn().mockResolvedValue(true),
       populate: jest.fn().mockResolvedValue({ _id: 'ride1', status: 'completed' }),
@@ -211,6 +223,7 @@ describe('PUT /api/rides/:rideId/complete', () => {
     Ride.findById.mockResolvedValue(mockRide);
     User.findByIdAndUpdate.mockResolvedValue({});
     Trip.findByIdAndUpdate.mockResolvedValue({});
+    Trip.updateMany.mockResolvedValue({});
 
     const res = await request(app)
       .put('/api/rides/ride1/complete')

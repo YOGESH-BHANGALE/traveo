@@ -321,7 +321,7 @@ Promise.all(ride.groupedRides.map(r => ridesAPI.complete(r._id)))
 
 ## Status: ✅ IMPLEMENTED
 
-- ✅ Automatic ride grouping by trip ID 
+- ✅ Automatic ride grouping by trip ID  
 - ✅ Combined ride card display
 - ✅ All riders listed with photos and ratings
 - ✅ Individual chat buttons for each rider

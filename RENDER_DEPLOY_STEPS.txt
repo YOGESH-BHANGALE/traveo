@@ -1,0 +1,167 @@
+========================================
+TRAVEO - RENDER DEPLOYMENT GUIDE
+========================================
+
+Your GitHub: https://github.com/YOGESH-BHANGALE/traveo
+✅ All files are uploaded!
+
+========================================
+STEP 1: DEPLOY BACKEND (5 minutes)
+========================================
+
+1. Open this link: https://dashboard.render.com
+
+2. Click the blue "New +" button (top right corner)
+
+3. Click "Web Service"
+
+4. Find and click: YOGESH-BHANGALE/traveo
+
+5. Click "Connect"
+
+6. Fill in these details:
+
+   Name: traveo-backend
+   
+   Region: Oregon (US West)
+   
+   Branch: main
+   
+   Root Directory: (leave empty)
+   
+   Runtime: Node
+   
+   Build Command: cd server && npm install
+   
+   Start Command: cd server && npm start
+   
+   Instance Type: Free
+
+7. Click "Advanced" button
+
+8. Click "Add Environment Variable" and add these ONE BY ONE:
+
+   Key: NODE_ENV
+   Value: production
+   
+   Key: PORT
+   Value: 5000
+   
+   Key: MONGODB_URI
+   Value: (your MongoDB connection string)
+   
+   Key: JWT_SECRET
+   Value: traveo_jwt_secret_2024_super_secure_key_min_32_chars_long
+   
+   Key: CLIENT_URL
+   Value: https://traveo-frontend.onrender.com
+   
+   Key: FRONTEND_URL
+   Value: https://traveo-frontend.onrender.com
+
+9. Click "Create Web Service"
+
+10. WAIT 5-10 minutes for deployment
+
+11. Copy your backend URL (will be like: https://traveo-backend.onrender.com)
+
+========================================
+STEP 2: DEPLOY FRONTEND (10 minutes)
+========================================
+
+1. Go back to: https://dashboard.render.com
+
+2. Click "New +" button again
+
+3. Click "Web Service"
+
+4. Find and click: YOGESH-BHANGALE/traveo
+
+5. Click "Connect"
+
+6. Fill in these details:
+
+   Name: traveo-frontend
+   
+   Region: Oregon (US West)
+   
+   Branch: main
+   
+   Root Directory: (leave empty)
+   
+   Runtime: Node
+   
+   Build Command: cd client && npm install && npm run build
+   
+   Start Command: cd client && npm start
+   
+   Instance Type: Free
+
+7. Click "Advanced" button
+
+8. Click "Add Environment Variable" and add these:
+
+   Key: NODE_ENV
+   Value: production
+   
+   Key: BACKEND_URL
+   Value: https://traveo-backend.onrender.com
+   (USE YOUR ACTUAL BACKEND URL FROM STEP 1)
+   
+   Key: NEXT_PUBLIC_API_URL
+   Value: (leave this EMPTY - just add the key, no value)
+   
+   Key: NEXT_PUBLIC_GOOGLE_MAPS_API_KEY
+   Value: (your Google Maps API key)
+
+9. Click "Create Web Service"
+
+10. WAIT 10-15 minutes for deployment
+
+========================================
+STEP 3: TEST YOUR APP
+========================================
+
+1. Open: https://traveo-frontend.onrender.com
+
+2. You should see your Traveo homepage!
+
+3. Try to register/login
+
+========================================
+IMPORTANT NOTES
+========================================
+
+- First load takes 30-60 seconds (free tier)
+- Backend URL: https://traveo-backend.onrender.com
+- Frontend URL: https://traveo-frontend.onrender.com
+- Share the FRONTEND URL with users
+
+========================================
+NEED HELP?
+========================================
+
+If you see any errors:
+1. Check the "Logs" tab in Render
+2. Make sure MongoDB URI is correct
+3. Make sure all environment variables are added
+
+========================================
+YOUR MONGODB CONNECTION STRING
+========================================
+
+Format should be:
+mongodb+srv://username:password@cluster.mongodb.net/traveo?retryWrites=true&w=majority
+
+Make sure:
+- Replace username and password
+- IP whitelist is set to 0.0.0.0/0 in MongoDB Atlas
+
+========================================
+DONE!
+========================================
+
+Your app will be live at:
+https://traveo-frontend.onrender.com
+
+Share this link with everyone! 🎉

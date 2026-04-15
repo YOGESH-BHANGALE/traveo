@@ -64,9 +64,9 @@ describe('NewTripPage', () => {
     expect(screen.getByRole('button', { name: /post trip/i })).toBeInTheDocument();
   });
 
-  test('renders all 5 vehicle type buttons', () => {
+  test('renders all 4 vehicle type buttons', () => {
     render(<NewTripPage />);
-    ['Auto', 'Car', 'Bike', 'Bus', 'Any'].forEach((v) => {
+    ['Auto', 'Car', 'Bike', 'Any'].forEach((v) => {
       expect(screen.getByText(v)).toBeInTheDocument();
     });
   });
@@ -118,7 +118,7 @@ describe('NewTripPage', () => {
     // Fill date and time - use a future date to pass validation
     const dateInput = document.querySelector('input[type="date"]');
     const timeInput = document.querySelector('input[type="time"]');
-    fireEvent.change(dateInput, { target: { value: '2026-04-10' } });
+    fireEvent.change(dateInput, { target: { value: '2026-04-20' } });
     fireEvent.change(timeInput, { target: { value: '09:00' } });
 
     fireEvent.change(screen.getByPlaceholderText(/e\.g\. 200/i), { target: { value: '150' } });
@@ -131,7 +131,7 @@ describe('NewTripPage', () => {
         expect.objectContaining({
           vehicleType: 'auto',
           estimatedFare: 150,
-          date: '2026-04-10',
+          date: '2026-04-20',
           time: '09:00',
           seats: 1,
           source: expect.objectContaining({

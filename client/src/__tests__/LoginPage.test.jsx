@@ -6,10 +6,10 @@ jest.mock('next/navigation', () => ({ useRouter: () => ({ push: jest.fn() }) }))
 jest.mock('next/link', () => ({ __esModule: true, default: ({ href, children }) => <a href={href}>{children}</a> }));
 jest.mock('framer-motion', () => ({
   motion: {
-    div: ({ children, ...p }) => <div {...p}>{children}</div>,
-    button: ({ children, ...p }) => <button {...p}>{children}</button>,
+    div: ({ children, initial, animate, exit, transition, ...p }) => <div {...p}>{children}</div>,
+    button: ({ children, whileTap, whileHover, initial, animate, ...p }) => <button {...p}>{children}</button>,
   },
-  AnimatePresence: ({ children }) => <>{children}</>,
+  AnimatePresence: ({ children, mode }) => <>{children}</>,
 }));
 jest.mock('react-hot-toast', () => ({
   __esModule: true,
