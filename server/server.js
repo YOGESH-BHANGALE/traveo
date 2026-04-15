@@ -11,12 +11,16 @@ const connectDB = require('./config/db');
 const passport = require('./config/passport');
 const initializeSocket = require('./socket/chatHandler');
 const { configurePush } = require('./services/notificationService');
+const { initSentry, sentryRequestHandler, sentryTracingHandler, sentryErrorHandler } = require('./config/sentry');
 
 // Load environment variables
 
 // Initialize Express app
 const app = express();
 const server = http.createServer(app);
+
+// Initialize Sentry (must be before other middleware)
+initSentry(app);
 
 // Initialize Socket.io
 const io = new Server(server, {
@@ -35,6 +39,10 @@ configurePush();
 
 // Middleware
 app.use(helmet({ contentSecurityPolicy: false }));
+
+// Sentry request handler (must be first middleware)
+app.use(sentryRequestHandler());
+app.use(sentryTracingHandler());
 
 // CORS configuration for production and development
 const allowedOrigins = [
@@ -101,6 +109,9 @@ app.use((req, res) => {
     message: 'Route not found',
   });
 });
+
+// Sentry error handler (must be before other error handlers)
+app.use(sentryErrorHandler());
 
 // Global error handler
 app.use((err, req, res, next) => {
